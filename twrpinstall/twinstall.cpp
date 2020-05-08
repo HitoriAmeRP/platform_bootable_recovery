@@ -232,6 +232,67 @@ static int Run_Update_Binary(const char *path, int* wipe_cache, zip_type ztype) 
 	fclose(child_data);
 
 	int waitrc = TWFunc::Wait_For_Child(pid, &status, "Updater");
+
+	// HARP start - port E3004 workaround from OrangeFox
+	// if updater-script doesn't find the correct device
+	// if (WEXITSTATUS (status) == TW_ERROR_WRONG_DEVICE)
+	if (WEXITSTATUS (status) == 7)
+	{
+		#ifdef HA_TARGET_DEVICES
+		// see if we can fix this error 7 if we have declared target devices for this (eg, raphaelin,raphael)
+		string alt_cmd = "/sbin/resetprop";
+		if (TWFunc::Path_Exists(alt_cmd))
+		{
+			string mygrep = "";
+			string myret = "";
+			string alt_dev = "";
+			bool myfound = false;
+			std::vector <std::string> devs = TWFunc::Split_String(HA_TARGET_DEVICES, ",");
+
+			string tmpstr = TWFunc::Exec_With_Output ("getprop ro.product.device");
+			if (tmpstr.empty() || tmpstr == "EXEC_ERROR!") {
+				// tmpstr = Fox_Current_Device;
+				return INSTALL_ERROR;
+			}
+
+			for (size_t i = 0; i < devs.size(); ++i)
+			{
+				usleep(524288);
+				// make sure we are not processing the current device
+				alt_dev = "";
+				myfound = false;
+				if (tmpstr != devs[i])
+				{
+					mygrep = "cat /tmp/recovery.log | grep E3004 | grep 'This package is for ' | grep 'script aborted' | grep " + devs[i];
+					myret = TWFunc::Exec_With_Output (mygrep);
+					usleep(131072);
+					if ((!myret.empty()) && (myret != "EXEC_ERROR!") && (myret.find(devs[i]) != std::string::npos))
+					{
+						myfound = true;
+						alt_dev = devs[i];
+						break;
+					}
+				}
+			} // for i
+
+			if (myfound && !alt_dev.empty())
+			{
+				if (TWFunc::Exec_Cmd (alt_cmd + " ro.product.device " + alt_dev) == 0)
+				{
+					gui_print_color("warning",
+					"\nHARP has received an \"error %i\".\nTrying to compensate by setting the device name to \"%s\". \n\nNow, flash the zip again.\n\n",
+					7, alt_dev.c_str());
+					// TW_ERROR_WRONG_DEVICE, alt_dev.c_str());
+					return INSTALL_ERROR;
+				}
+			}
+		}
+		#endif
+		gui_print_color("error", "Wrong device/firmware, or corrupt zip? For possible causes, search online for error %i.\n", 7);
+		gui_print_color("error", "Check \"/tmp/recovery.log\" for the specific cause of this error.\n");
+	}
+	// HARP end - port E3004 workaround from OrangeFox
+
 	if (waitrc != 0)
 		return INSTALL_ERROR;
 
