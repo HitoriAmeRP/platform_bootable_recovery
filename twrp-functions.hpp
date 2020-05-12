@@ -122,6 +122,10 @@ public:
 	static bool Get_Service_From_Manifest(std::string basepath, std::string service, std::string &ret);
 
 	static bool abx_to_xml(const std::string path, std::string &result); // could we convert abx to xml (if so, return the full path to the converted file)
+
+	// string functions
+	static string get_assert_device(const string filename); // find out which device an "assert" with an ro.product.device statement wants
+	static string removechar(const string src, const char chars); // delete all occurrences of a char from a string
 private:
 	static void Copy_Log(string Source, string Destination);
 
