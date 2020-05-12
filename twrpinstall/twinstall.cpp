@@ -97,7 +97,46 @@ static int Install_Theme(const char* path, ZipArchiveHandle Zip) {
 #endif
 }
 
+static string CheckForAsserts(void) {
+	string ret = "";
+	string device;
+	#ifdef HA_TARGET_DEVICES
+	device = TWFunc::get_assert_device(FOX_TMP_PATH);
+	if (device.empty())
+		return ret;
+	
+	string tmpstr = TWFunc::Exec_With_Output ("getprop ro.product.device");
+	usleep(128000);
+	
+	if (tmpstr.empty() || tmpstr == "EXEC_ERROR!")
+		return ret;
+	
+	if (device == tmpstr)
+		return ret;
+	
+	LOGINFO("AssertDevice=[%s] and CurrentDevice=[%s]\n", device.c_str(), tmpstr.c_str());
+	std::vector <std::string> devs = TWFunc::Split_String(HA_TARGET_DEVICES, ",");
+	
+	string temp = "";   
+	for (size_t i = 0; i < devs.size(); ++i) {
+	 	usleep(4096);
+	 	temp = TWFunc::removechar(devs[i], ' ');
+	 	// make sure we are not processing the current device
+	 	if (tmpstr != temp) {
+			if (device == temp) {
+				LOGINFO("Found AssertDevice [%s] at HA_TARGET_DEVICES # %i\n", temp.c_str(), (int)i);
+				return temp;
+			}
+		}
+	} // for i
+	
+	#endif
+	return ret;
+}
+
 static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
+	string assert_device = "";
+
 	char arches[PATH_MAX];
 	property_get("ro.product.cpu.abilist", arches, "error");
 	if (strcmp(arches, "error") == 0)
@@ -149,6 +188,44 @@ static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
 			return INSTALL_ERROR;
 		}
 	}
+
+	// If exists, extract updater-script from the zip file
+	std::string updater_script(UPDATER_SCRIPT);
+	ZipEntry64 updater_script_entry;
+	if (FindEntry(Zip, updater_script, &updater_script_entry) != 0) {
+		LOGINFO("Zip does not contain updater-script file in its root.\n");
+	} else {
+		unlink(TMP_UPDATER_SCRIPT_PATH);
+		android::base::unique_fd fd(
+			open(TMP_UPDATER_SCRIPT_PATH, O_CREAT | O_WRONLY | O_TRUNC | O_CLOEXEC, 0644));
+		if (fd == -1) {
+			return INSTALL_ERROR;
+		}
+		if (ExtractEntryToFile(Zip, &updater_script_entry, fd)) {
+			LOGERR("Could not extract '%s'\n", UPDATER_SCRIPT);
+			return INSTALL_ERROR;
+		}
+		#ifdef HA_TARGET_DEVICES
+		assert_device = CheckForAsserts();
+		#endif
+	}
+
+	#ifdef HA_TARGET_DEVICES
+	if (!assert_device.empty()) {
+		string alt_cmd = "/sbin/resetprop";
+		if (!TWFunc::Path_Exists(alt_cmd))
+			alt_cmd = "/sbin/setprop";
+		
+		if (!TWFunc::Path_Exists(alt_cmd))
+			return INSTALL_SUCCESS;
+		
+		if (TWFunc::Exec_Cmd (alt_cmd + " ro.product.device " + assert_device) == 0) {
+				gui_print_color("warning",
+				"\nThe device name has been switched temporarily to \"%s\" (until you reboot HARP).\n\n", assert_device.c_str());
+				usleep (64000);
+		}
+	}
+	#endif
 	return INSTALL_SUCCESS;
 }
 
@@ -232,67 +309,6 @@ static int Run_Update_Binary(const char *path, int* wipe_cache, zip_type ztype) 
 	fclose(child_data);
 
 	int waitrc = TWFunc::Wait_For_Child(pid, &status, "Updater");
-
-	// HARP start - port E3004 workaround from OrangeFox
-	// if updater-script doesn't find the correct device
-	// if (WEXITSTATUS (status) == TW_ERROR_WRONG_DEVICE)
-	if (WEXITSTATUS (status) == 7)
-	{
-		#ifdef HA_TARGET_DEVICES
-		// see if we can fix this error 7 if we have declared target devices for this (eg, raphaelin,raphael)
-		string alt_cmd = "/sbin/resetprop";
-		if (TWFunc::Path_Exists(alt_cmd))
-		{
-			string mygrep = "";
-			string myret = "";
-			string alt_dev = "";
-			bool myfound = false;
-			std::vector <std::string> devs = TWFunc::Split_String(HA_TARGET_DEVICES, ",");
-
-			string tmpstr = TWFunc::Exec_With_Output ("getprop ro.product.device");
-			if (tmpstr.empty() || tmpstr == "EXEC_ERROR!") {
-				// tmpstr = Fox_Current_Device;
-				return INSTALL_ERROR;
-			}
-
-			for (size_t i = 0; i < devs.size(); ++i)
-			{
-				usleep(524288);
-				// make sure we are not processing the current device
-				alt_dev = "";
-				myfound = false;
-				if (tmpstr != devs[i])
-				{
-					mygrep = "cat /tmp/recovery.log | grep E3004 | grep 'This package is for ' | grep 'script aborted' | grep " + devs[i];
-					myret = TWFunc::Exec_With_Output (mygrep);
-					usleep(131072);
-					if ((!myret.empty()) && (myret != "EXEC_ERROR!") && (myret.find(devs[i]) != std::string::npos))
-					{
-						myfound = true;
-						alt_dev = devs[i];
-						break;
-					}
-				}
-			} // for i
-
-			if (myfound && !alt_dev.empty())
-			{
-				if (TWFunc::Exec_Cmd (alt_cmd + " ro.product.device " + alt_dev) == 0)
-				{
-					gui_print_color("warning",
-					"\nHARP has received an \"error %i\".\nTrying to compensate by setting the device name to \"%s\". \n\nNow, flash the zip again.\n\n",
-					7, alt_dev.c_str());
-					// TW_ERROR_WRONG_DEVICE, alt_dev.c_str());
-					return INSTALL_ERROR;
-				}
-			}
-		}
-		#endif
-		gui_print_color("error", "Wrong device/firmware, or corrupt zip? For possible causes, search online for error %i.\n", 7);
-		gui_print_color("error", "Check \"/tmp/recovery.log\" for the specific cause of this error.\n");
-	}
-	// HARP end - port E3004 workaround from OrangeFox
-
 	if (waitrc != 0)
 		return INSTALL_ERROR;
 

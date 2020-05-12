@@ -18,6 +18,7 @@
 #define RECOVERY_INSTALL_COMMAND_H_
 
 #define TMP_UPDATER_BINARY_PATH "/tmp/updater"
+#define TMP_UPDATER_SCRIPT_PATH "/tmp/updaterscript"
 
 #include <string>
 #include <ziparchive/zip_archive.h>
