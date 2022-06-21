@@ -589,11 +589,15 @@ void TWPartitionManager::Decrypt_Data() {
 	TWPartition* Decrypt_Data = Find_Partition_By_Path("/data");
 	if (Decrypt_Data && Decrypt_Data->Is_Encrypted && !Decrypt_Data->Is_Decrypted) {
 		Set_Crypto_State();
+#ifndef TW_USE_SIMPLIFIED_KEY_DIR_CHECK
 		TWPartition* Key_Directory_Partition = Find_Partition_By_Path(Decrypt_Data->Key_Directory);
 		if (Key_Directory_Partition != nullptr)
 			if (!Key_Directory_Partition->Is_Mounted())
 				Mount_By_Path(Decrypt_Data->Key_Directory, false);
 		if (!Decrypt_Data->Key_Directory.empty()) {
+#else
+		if (!Decrypt_Data->Key_Directory.empty() && Mount_By_Path(Decrypt_Data->Key_Directory, false)) {
+#endif
 			Set_Crypto_Type("file");
 #ifdef TW_INCLUDE_FBE_METADATA_DECRYPT
 #ifdef USE_FSCRYPT
