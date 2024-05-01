@@ -23,7 +23,7 @@
         <string name="sdext">SD-EXT</string>
         <string name="adopted_data">Données adoptées</string>
         <string name="adopted_storage">Stockage adopté</string>
-        <string name="twrp_header">Team Win Recovery Project</string>
+        <string name="twrp_header">Hitori Ame Recovery Project</string>
         <string name="battery_pct">%tw_battery%</string>
         <string name="sort_by_name">Trier par nom</string>
         <string name="sort_by_date">Trier par Date</string>

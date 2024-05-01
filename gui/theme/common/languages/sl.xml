@@ -26,7 +26,7 @@
 		<string name="sdext">SD-EXT</string>
 		<string name="adopted_data">Prevzeti podatki</string>
 		<string name="adopted_storage">Prevzeta pomnilniška naprava</string>
-		<string name="twrp_header">Team Win Recovery Project</string>
+		<string name="twrp_header">Hitori Ame Recovery Project</string>
 		<string name="battery_pct">%tw_battery%</string>
 		<string name="sort_by_name">Razvrsti po imenu</string>
 		<string name="sort_by_date">Razvrsti po datumu</string>
