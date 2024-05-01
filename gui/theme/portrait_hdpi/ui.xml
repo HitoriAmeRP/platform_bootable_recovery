@@ -494,7 +494,7 @@
 		</template>
 
 		<template name="tabs_backup">
-			<fill color="%accent_color%">
+			<fill color="#000000">
 				<placement x="0" y="row1_y" w="%screen_width%" h="tab_height"/>
 			</fill>
 
@@ -512,7 +512,7 @@
 		</template>
 
 		<template name="tabs_settings">
-			<fill color="%accent_color%">
+			<fill color="#000000">
 				<placement x="0" y="row1_y" w="%screen_width%" h="tab_height"/>
 			</fill>
 
