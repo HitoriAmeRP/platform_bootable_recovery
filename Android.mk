@@ -268,9 +268,9 @@ endif
 ifeq ($(TW_NO_BATT_PERCENT), true)
     LOCAL_CFLAGS += -DTW_NO_BATT_PERCENT
 endif
-ifeq ($(TW_NO_CPU_TEMP), true)
+# ifeq ($(TW_NO_CPU_TEMP), true)
     LOCAL_CFLAGS += -DTW_NO_CPU_TEMP
-endif
+# endif
 ifneq ($(TW_CUSTOM_POWER_BUTTON),)
 	LOCAL_CFLAGS += -DTW_CUSTOM_POWER_BUTTON=$(TW_CUSTOM_POWER_BUTTON)
 endif
