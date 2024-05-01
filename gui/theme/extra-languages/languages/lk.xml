@@ -31,7 +31,7 @@
 		<!-- GUI XML strings -->
 		<string name="twrp_header">TeamWin Recovery Project</string>
 		<string name="twrp_watch_header">TWRP %tw_version%</string>
-		<string name="battery_pct">Battery: %tw_battery%</string>
+		<string name="battery_pct">%tw_battery%</string>
 		<string name="sort_by_name">නම අනුව</string>
 		<string name="sort_by_date">දිනය අනුව</string>
 		<string name="sort_by_size">Size අනුව</string>
