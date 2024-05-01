@@ -189,7 +189,7 @@
 		<variable name="warning" value="#F8F8A0"/>
 		<variable name="error" value="#FF0101"/>
 		<variable name="highlight" value="#0090CA"/>
-		<variable name="fileselector_linecolor" value="#555555"/>
+		<variable name="fileselector_linecolor" value="#191C20"/>
 		<variable name="fileselector_highlight_color" value="#555555"/>
 		<variable name="fileselector_separatorheight" value="2"/>
 		<variable name="fileselector_spacing" value="0"/>
