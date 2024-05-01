@@ -23,7 +23,6 @@
 		<font name="keylabel-small" filename="Inter-Regular.ttf" size="46"/>
 		<font name="keylabel-longpress" filename="Inter-Regular.ttf" size="32"/>
 
-		<image name="logo" filename="logo" retainaspect="1"/>
 		<image name="main_button" filename="main_button"/>
 		<image name="main_button_half_height" filename="main_button_half_height"/>
 		<image name="main_button_half_height_full_width" filename="main_button_half_height_full_width"/>
@@ -245,19 +244,6 @@
 			<fill color="%accent_color%">
 				<placement x="0" y="0" w="%screen_width%" h="%header_height%"/>
 			</fill>
-
-			<image>
-				<condition var1="tw_busy" var2="1"/>
-				<image resource="logo"/>
-				<placement x="0" y="0"/>
-			</image>
-
-			<button>
-				<condition var1="tw_busy" var2="0"/>
-				<placement x="0" y="0"/>
-				<image resource="logo"/>
-				<action function="key">home</action>
-			</button>
 
 			<fill color="#00000030">
 				<condition var1="tw_simulate_actions" var2="0"/>
