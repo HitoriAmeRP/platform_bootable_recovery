@@ -33,7 +33,7 @@
 		<string name="autostorage">Storage-Partition</string>
 
 		<!-- GUI XML strings -->
-		<string name="twrp_header">Team Win Recovery Project</string>
+		<string name="twrp_header">Hitori Ame Recovery Project</string>
 		<string name="battery_pct">%tw_battery%</string>
 		<string name="sort_by_name">Nach Namen sortieren</string>
 		<string name="sort_by_date">Nach Datum sortieren</string>

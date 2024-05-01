@@ -32,7 +32,7 @@
 		<string name="adopted_storage">Archivio annesso</string>
 
 		<!-- GUI XML strings -->
-		<string name="twrp_header">Team Win Recovery Project</string>
+		<string name="twrp_header">Hitori Ame Recovery Project</string>
 		<string name="battery_pct">%tw_battery%</string>
 		<string name="sort_by_name">Ordina per Nome</string>
 		<string name="sort_by_date">Ordina per Data</string>
