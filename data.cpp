@@ -765,7 +765,11 @@ void DataManager::SetDefaultValues()
 	mPersist.SetValue(TW_TIME_ZONE_GUISEL, "CST6;CDT,M3.2.0,M11.1.0");
 	mPersist.SetValue(TW_TIME_ZONE_GUIOFFSET, "0");
 	mPersist.SetValue(TW_TIME_ZONE_GUIDST, "1");
+#ifdef TW_REFLASH_BY_DEFAULT
+	mPersist.SetValue(TW_AUTO_REFLASHTWRP_VAR, "1");
+#else
 	mPersist.SetValue(TW_AUTO_REFLASHTWRP_VAR, "0");
+#endif
 #ifdef TW_NO_FLASH_CURRENT_TWRP
 	mConst.SetValue("tw_no_flash_current_twrp", "1");
 #else

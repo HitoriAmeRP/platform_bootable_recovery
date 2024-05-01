@@ -467,6 +467,9 @@ endif
 ifeq ($(TW_SKIP_GET_FOLDER_SIZE), true)
     LOCAL_CFLAGS += -DTW_SKIP_GET_FOLDER_SIZE
 endif
+ifeq ($(TW_REFLASH_BY_DEFAULT), true)
+    LOCAL_CFLAGS += -DTW_REFLASH_BY_DEFAULT
+endif
 
 LOCAL_C_INCLUDES += system/vold \
 
