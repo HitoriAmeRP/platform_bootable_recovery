@@ -77,7 +77,7 @@
 		<variable name="status_height" value="72"/>
 		<variable name="header_height" value="256"/>
 		<variable name="navbar_height" value="130"/>
-		<variable name="content_width" value="1008"/>
+		<variable name="content_width" value="990"/>
 		<variable name="content_overlay_width" value="936"/>
 		<variable name="dialog_height" value="704"/>
 		<variable name="back_button_x" value="240"/>
