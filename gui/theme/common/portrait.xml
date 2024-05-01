@@ -3773,33 +3773,21 @@
 				<text>{@advanced_hdr=Advanced}</text>
 			</text>
 
-			<button style="main_button">
-				<placement x="%indent%" y="%row2a_y%"/>
-				<text>{@copy_log_btn=Copy Log}</text>
-				<action function="page">copylog</action>
-			</button>
-
-			<button style="main_button">
-				<condition var1="tw_has_data_media" var2="1"/>
-				<placement x="%center_x%" y="%row2a_y%"/>
-				<text>{@adb_sideload_btn=ADB Sideload}</text>
-				<action function="page">sideload</action>
-			</button>
-
-			<button style="main_button">
-				<placement x="%indent%" y="%row8_y%"/>
-				<text>{@terminal_btn=Terminal}</text>
-				<action function="page">terminalcommand</action>
-			</button>
-
-			<button style="main_button">
-				<placement x="%center_x%" y="%row8_y%"/>
-				<text>{@file_manager_btn=File Manager}</text>
-				<action function="page">filemanagerlist</action>
-			</button>
-
 			<listbox style="advanced_listbox">
-				<placement x="%indent%" y="%row13a_y%" w="%content_width%" h="%listbox_advanced_height%"/>
+				<placement x="%indent%" y="%row2a_y%" w="%content_width%" h="%listbox_advanced_height_full%"/>
+				<listitem name="{@copy_log_btn=Copy Log}">
+					<action function="page">copylog</action>
+				</listitem>
+				<listitem name="{@adb_sideload_btn=ADB Sideload}">
+					<condition var1="tw_has_data_media" var2="1"/>
+					<action function="page">sideload</action>
+				</listitem>
+				<listitem name="{@terminal_btn=Terminal}">
+					<action function="page">terminalcommand</action>
+				</listitem>
+				<listitem name="{@file_manager_btn=File Manager}">
+					<action function="page">filemanagerlist</action>
+				</listitem>
 				<listitem name="{@change_twrp_folder_btn=Change TWRP folder}">
 					<condition var1="tw_is_decrypted" var2="1"/>
 					<action function="page">changeTwrpFolder</action>
