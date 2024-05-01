@@ -17,7 +17,7 @@
 		<font name="font_l" filename="Inter-Regular.ttf" size="54"/>
 		<font name="font_m" filename="Inter-Regular.ttf" size="42"/>
 		<font name="font_s" filename="Inter-Regular.ttf" size="36"/>
-		<font name="fixed" filename="DroidSansMono.ttf" size="30"/>
+		<font name="fixed" filename="JetBrainsMonoNL-Regular.ttf" size="30"/>
 
 		<font name="keylabel" filename="Inter-Regular.ttf" size="64"/>
 		<font name="keylabel-small" filename="Inter-Regular.ttf" size="46"/>
