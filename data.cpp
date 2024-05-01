@@ -647,23 +647,6 @@ void DataManager::SetDefaultValues()
 #else
 	mConst.SetValue(TW_NO_BATTERY_PERCENT, "0");
 #endif
-#ifdef TW_NO_CPU_TEMP
-	printf("TW_NO_CPU_TEMP := true\n");
-	mConst.SetValue("tw_no_cpu_temp", "1");
-#else
-	string cpu_temp_file;
-#ifdef TW_CUSTOM_CPU_TEMP_PATH
-	cpu_temp_file = EXPAND(TW_CUSTOM_CPU_TEMP_PATH);
-#else
-	cpu_temp_file = "/sys/class/thermal/thermal_zone0/temp";
-#endif
-	if (TWFunc::Path_Exists(cpu_temp_file)) {
-		mConst.SetValue("tw_no_cpu_temp", "0");
-	} else {
-		LOGINFO("CPU temperature file '%s' not found, disabling CPU temp.\n", cpu_temp_file.c_str());
-		mConst.SetValue("tw_no_cpu_temp", "1");
-	}
-#endif
 #ifdef TW_CUSTOM_POWER_BUTTON
 	printf("TW_POWER_BUTTON := %s\n", EXPAND(TW_CUSTOM_POWER_BUTTON));
 	mConst.SetValue(TW_POWER_BUTTON, EXPAND(TW_CUSTOM_POWER_BUTTON));
@@ -1020,40 +1003,6 @@ int DataManager::GetMagicValue(const string& varName, string& value)
 				sprintf(tmp, "%d:%02d AM", current->tm_hour == 0 ? 12 : current->tm_hour, current->tm_min);
 		}
 		value = tmp;
-		return 0;
-	}
-	else if (varName == "tw_cpu_temp")
-	{
-		int tw_no_cpu_temp;
-		GetValue("tw_no_cpu_temp", tw_no_cpu_temp);
-		if (tw_no_cpu_temp == 1) return -1;
-
-		string cpu_temp_file;
-		static unsigned long convert_temp = 0;
-		static time_t cpuSecCheck = 0;
-		struct timeval curTime;
-		string results;
-
-		gettimeofday(&curTime, NULL);
-		if (curTime.tv_sec > cpuSecCheck)
-		{
-#ifdef TW_CUSTOM_CPU_TEMP_PATH
-			cpu_temp_file = EXPAND(TW_CUSTOM_CPU_TEMP_PATH);
-			if (TWFunc::read_file(cpu_temp_file, results) != 0)
-				return -1;
-#else
-			cpu_temp_file = "/sys/class/thermal/thermal_zone0/temp";
-			if (TWFunc::read_file(cpu_temp_file, results) != 0)
-				return -1;
-#endif
-			convert_temp = strtoul(results.c_str(), NULL, 0) / 1000;
-			if (convert_temp <= 0)
-				convert_temp = strtoul(results.c_str(), NULL, 0);
-			if (convert_temp >= 150)
-				convert_temp = strtoul(results.c_str(), NULL, 0) / 10;
-			cpuSecCheck = curTime.tv_sec + 5;
-		}
-		value = TWFunc::to_string(convert_temp);
 		return 0;
 	}
 	return -1;
