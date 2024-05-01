@@ -272,7 +272,7 @@
 				</conditions>
 				<font resource="font_m"/>
 				<placement x="%indent_right%" y="%row1_header_y%" placement="1"/>
-				<text>{@battery_pct=Battery: %tw_battery%}</text>
+				<text>{@battery_pct=%tw_battery%}</text>
 			</text>
 
 			<!-- Custom position for status bar items if defined START -->
@@ -302,7 +302,7 @@
 				</conditions>
 				<font resource="font_m"/>
 				<placement x="%tw_battery_pos_x%" y="%row1_header_y%"/>
-				<text>{@battery_pct=Battery: %tw_battery%}</text>
+				<text>{@battery_pct=%tw_battery%}</text>
 			</text>
 
 			<!-- Custom position for status bar items if defined END -->

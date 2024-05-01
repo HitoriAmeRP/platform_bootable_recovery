@@ -34,7 +34,7 @@
 
 		<!-- GUI XML strings -->
 		<string name="twrp_header">Projekt Team Win Recovery</string>
-		<string name="battery_pct">Bateria: %tw_battery%</string>
+		<string name="battery_pct">%tw_battery%</string>
 		<string name="sort_by_name">Sortuj wg nazwy</string>
 		<string name="sort_by_date">Sortuj wg daty</string>
 		<string name="sort_by_size">Sortuj wg rozmiaru</string>

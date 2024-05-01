@@ -30,7 +30,7 @@
 		<string name="autostorage">Opslag</string>
 		<!-- GUI XML strings -->
 		<string name="twrp_header">Team Win Recovery Project</string>
-		<string name="battery_pct">Accu: %tw_battery%</string>
+		<string name="battery_pct">%tw_battery%</string>
 		<string name="sort_by_name">Op naam sorteren</string>
 		<string name="sort_by_date">Op datum sorteren</string>
 		<string name="sort_by_size">Op grootte sorteren</string>
