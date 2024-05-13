@@ -3097,6 +3097,8 @@ bool TWPartition::Update_Size(bool Display_Error) {
 #ifndef TW_SKIP_GET_FOLDER_SIZE
 			Used = backup_exclusions.Get_Folder_Size(Mount_Point);
 			Backup_Size = Used;
+#else
+			usleep(32768);
 #endif
 			int bak = (int)(Used / 1048576LLU);
 			int fre = (int)(Free / 1048576LLU);
