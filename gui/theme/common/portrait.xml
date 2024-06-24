@@ -4887,8 +4887,8 @@
 
 			<patternpassword>
 				<placement x="%pattern_x%" y="%row5_y%" w="%pattern_size%" h="%pattern_size%"/>
-				<dot color="%fileselector_linecolor%" activecolor="%accent_color%" radius="%pattern_dot_dia%"/>
-				<line color="%fileselector_linecolor%" width="%pattern_line_w%"/>
+				<dot color="%accent_color%" activecolor="%accent_color%" radius="%pattern_dot_dia%"/>
+				<line color="%accent_color%" width="%pattern_line_w%"/>
 				<data name="tw_crypto_password"/>
 				<action function="page">trydecrypt</action>
 			</patternpassword>
