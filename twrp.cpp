@@ -377,6 +377,9 @@ int main(int argc, char **argv) {
 #ifdef TARGET_OTA_ASSERT_DEVICE
 	property_set("ro.twrp.target.devices", TARGET_OTA_ASSERT_DEVICE);
 #endif
+#ifdef HA_TARGET_DEVICES
+	property_set("ro.harp.target.devices", HA_TARGET_DEVICES);
+#endif
 
 	time_t StartupTime = time(NULL);
 	printf("Starting TWRP %s-%s on %s (pid %d)\n", TW_VERSION_STR, TW_GIT_REVISION, ctime(&StartupTime), getpid());

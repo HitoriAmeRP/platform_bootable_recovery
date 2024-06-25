@@ -100,7 +100,16 @@ static int Install_Theme(const char* path, ZipArchiveHandle Zip) {
 static string CheckForAsserts(void) {
 	string ret = "";
 	string device;
-	#ifdef HA_TARGET_DEVICES
+
+	// harp.target.devices
+	bool has_ha_target_devices = false;
+	char ha_target_devices[PROPERTY_VALUE_MAX * 2];
+	property_get("ro.harp.target.devices", ha_target_devices, "");
+	if (strlen(ha_target_devices) > 1) {
+		has_ha_target_devices = true;
+	}
+
+if (has_ha_target_devices) {
 	device = TWFunc::get_assert_device(FOX_TMP_PATH);
 	if (device.empty())
 		return ret;
@@ -115,7 +124,7 @@ static string CheckForAsserts(void) {
 		return ret;
 	
 	LOGINFO("AssertDevice=[%s] and CurrentDevice=[%s]\n", device.c_str(), tmpstr.c_str());
-	std::vector <std::string> devs = TWFunc::Split_String(HA_TARGET_DEVICES, ",");
+	std::vector <std::string> devs = TWFunc::Split_String(ha_target_devices, ",");
 	
 	string temp = "";   
 	for (size_t i = 0; i < devs.size(); ++i) {
@@ -130,7 +139,7 @@ static string CheckForAsserts(void) {
 		}
 	} // for i
 	
-	#endif
+}
 	return ret;
 }
 
@@ -189,6 +198,14 @@ static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
 		}
 	}
 
+	// harp.target.devices
+	bool has_ha_target_devices = false;
+	char ha_target_devices[PROPERTY_VALUE_MAX * 2];
+	property_get("ro.harp.target.devices", ha_target_devices, "");
+	if (strlen(ha_target_devices) > 1) {
+		has_ha_target_devices = true;
+	}
+
 	// If exists, extract updater-script from the zip file
 	std::string updater_script(UPDATER_SCRIPT);
 	ZipEntry64 updater_script_entry;
@@ -205,12 +222,12 @@ static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
 			LOGERR("Could not extract '%s'\n", UPDATER_SCRIPT);
 			return INSTALL_ERROR;
 		}
-		#ifdef HA_TARGET_DEVICES
+		if (has_ha_target_devices) {
 		assert_device = CheckForAsserts();
-		#endif
+		}
 	}
 
-	#ifdef HA_TARGET_DEVICES
+	if (has_ha_target_devices) {
 	if (!assert_device.empty()) {
 		string alt_cmd = "/sbin/resetprop";
 		if (!TWFunc::Path_Exists(alt_cmd))
@@ -225,7 +242,7 @@ static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
 				usleep (64000);
 		}
 	}
-	#endif
+	}
 	return INSTALL_SUCCESS;
 }
 
