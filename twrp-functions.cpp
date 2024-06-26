@@ -174,6 +174,18 @@ int TWFunc::Exec_Cmd(const string& cmd, string &result, bool combine_stderr) {
 	return ret;
 }
 
+string TWFunc::Exec_With_Output(const string &cmd) {
+	string res;
+
+	TWFunc::Exec_Cmd(cmd, res, true);
+
+	return res;
+}
+
+string TWFunc::Exec_With_Output(const string &cmd, const string &args) {
+	return TWFunc::Exec_With_Output(cmd + " " + args);
+}
+
 int TWFunc::Exec_Cmd(const string& cmd, bool Show_Errors) {
 	pid_t pid;
 	int status;

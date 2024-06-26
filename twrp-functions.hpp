@@ -62,6 +62,8 @@ public:
 
 	static int Exec_Cmd(const string& cmd, string &result, bool combine_stderr);     //execute a command and return the result as a string by reference, set combined_stderror to add stderr
 	static int Exec_Cmd(const string& cmd, bool Show_Errors = true);            //execute a command, displays an error to the GUI if Show_Errors is true, Show_Errors is true by default
+	static string Exec_With_Output(const string &cmd, const string &args);      // Run a command with arguments & get the output
+	static string Exec_With_Output(const string &cmd);                          // Run a command & get the output
 	static int Wait_For_Child(pid_t pid, int *status, string Child_Name, bool Show_Errors = true); // Waits for pid to exit and checks exit status, displays an error to the GUI if Show_Errors is true which is the default
 	static int Wait_For_Child_Timeout(pid_t pid, int *status, const string& Child_Name, int timeout); // Waits for a pid to exit until the timeout is hit. If timeout is hit, kill the chilld.
 	static bool Path_Exists(string Path);                                       // Returns true if the path exists
