@@ -110,7 +110,7 @@ static string CheckForAsserts(void) {
 	}
 
 if (has_ha_target_devices) {
-	device = TWFunc::get_assert_device(TMP_UPDATER_BINARY_PATH);
+	device = TWFunc::get_assert_device(TMP_UPDATER_SCRIPT_PATH);
 	if (device.empty())
 		return ret;
 	
