@@ -229,9 +229,9 @@ static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
 
 	if (has_ha_target_devices) {
 	if (!assert_device.empty()) {
-		string alt_cmd = "/sbin/resetprop";
+		string alt_cmd = "/system/bin/resetprop";
 		if (!TWFunc::Path_Exists(alt_cmd))
-			alt_cmd = "/sbin/setprop";
+			alt_cmd = "/system/bin/setprop";
 		
 		if (!TWFunc::Path_Exists(alt_cmd))
 			return INSTALL_SUCCESS;
