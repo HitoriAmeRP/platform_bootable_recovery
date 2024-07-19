@@ -1675,6 +1675,20 @@ bool TWFunc::Get_Service_From_Manifest(std::string basepath, std::string service
 	return ret;
 }
 
+int TWFunc::Get_Android_SDK_Version(void)
+{
+	int sdkver = 0;
+	string sdkverstr = TWFunc::System_Property_Get("ro.build.version.sdk");
+
+	if (sdkverstr.empty())
+		sdkverstr = TWFunc::System_Property_Get("ro.system.build.version.sdk");
+
+	if (!sdkverstr.empty()) {
+		sdkver = atoi(sdkverstr.c_str());
+	}
+	return sdkver;
+}
+
 #endif // ndef BUILD_TWRPTAR_MAIN
 
 string TWFunc::get_assert_device(const string filename)

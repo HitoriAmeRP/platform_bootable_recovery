@@ -79,6 +79,7 @@ public:
 	static bool Wait_For_File(const string& path, std::chrono::nanoseconds timeout); // Wait For File, True is success, False is timeout;
 
 #ifndef BUILD_TWRPTAR_MAIN
+	static int Get_Android_SDK_Version(void);
 	static int Recursive_Mkdir(string Path);                                    // Recursively makes the entire path
 	static void GUI_Operation_Text(string Read_Value, string Default_Text);     // Updates text for display in the GUI, e.g. Backing up %partition name%
 	static void GUI_Operation_Text(string Read_Value, string Partition_Name, string Default_Text); // Same as above but includes partition name
