@@ -237,8 +237,8 @@ static int Prepare_Update_Binary(ZipArchiveHandle Zip) {
 			return INSTALL_SUCCESS;
 		
 		if (TWFunc::Exec_Cmd (alt_cmd + " ro.product.device " + assert_device) == 0) {
-				gui_print_color("warning",
-				"\nThe device name has been switched temporarily to \"%s\" (until you reboot HARP).\n\n", assert_device.c_str());
+				// gui_print_color("warning",
+				// "\nThe device name has been switched temporarily to \"%s\" (until you reboot HARP).\n\n", assert_device.c_str());
 				usleep (64000);
 		}
 	}
