@@ -164,7 +164,7 @@
 		<style name="slidervalue">
 			<resource handle="sliderhandle"/>
 			<font resource="font_m" color="%text_color%"/>
-			<colors line="%fileselector_linecolor%"/>
+			<colors line="%accent_color%"/>
 			<dimensions lineh="%slidervalue_lineh%" linepadding="%slidervalue_padding%" sliderw="%slidervalue_sliderw%" sliderh="%slidervalue_sliderh%"/>
 		</style>
 
