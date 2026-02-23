@@ -481,6 +481,9 @@ endif
 ifneq ($(HA_TARGET_DEVICES),)
     LOCAL_CFLAGS += -DHA_TARGET_DEVICES='"$(HA_TARGET_DEVICES)"'
 endif
+ifneq ($(HA_FBE_SKIP_SDK),)
+    LOCAL_CFLAGS += -DHA_FBE_SKIP_SDK='"$(HA_FBE_SKIP_SDK)"'
+endif
 
 LOCAL_C_INCLUDES += system/vold \
 

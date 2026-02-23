@@ -1675,6 +1675,7 @@ bool TWFunc::Get_Service_From_Manifest(std::string basepath, std::string service
 	return ret;
 }
 
+#ifdef HA_FBE_SKIP_SDK
 int TWFunc::Get_Android_SDK_Version(void)
 {
 	int sdkver = 0;
@@ -1688,6 +1689,7 @@ int TWFunc::Get_Android_SDK_Version(void)
 	}
 	return sdkver;
 }
+#endif // def HA_FBE_SKIP_SDK
 
 #endif // ndef BUILD_TWRPTAR_MAIN
 

@@ -784,9 +784,11 @@ bool TWPartition::Decrypt_FBE_DE() {
 		PartitionManager.Set_Crypto_Type("file");
 		LOGINFO("File Based Encryption is present\n");
 #ifdef TW_INCLUDE_FBE
+#ifdef HA_FBE_SKIP_SDK
 	int current=TWFunc::Get_Android_SDK_Version();
-	if (current == 29)
+	if (current == HA_FBE_SKIP_SDK)
 		return false;
+#endif
 	Is_FBE = true;
 	ExcludeAll(Mount_Point + "/convert_fbe");
 	ExcludeAll(Mount_Point + "/unencrypted");
